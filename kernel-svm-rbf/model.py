@@ -29,5 +29,12 @@ class KernelSVMRBF:
             shape={n_sample]
         """
 
-        self.initialize_alfa(X.shape[0])
-        K = zeros(shape=(X.shape[0], X.shape[0]))
+        n_sample = X.shape[0]
+        self.initialize_alfa(n_sample)
+        K = zeros(shape=(n_sample, n_sample))
+        for i in range(n_sample):
+            for j in range(n_sample):
+                if i != j:
+                    K[i][j] = exp(-(self.gamma * ((X[i] - X[j]) ** 2).sum()))
+                else:
+                    K[i][j] = 1
