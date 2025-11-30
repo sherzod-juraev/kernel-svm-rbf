@@ -7,5 +7,5 @@ app = FastAPI()
 app.include_router(
     modules_router,
     prefix='/kernel-svm-rbf',
-    tags=['Kernel SVM RBF']
+    tags=['Kernel radius based function SVM']
 )

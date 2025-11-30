@@ -36,4 +36,3 @@ class KernelSVMRBF:
                     K[i][j] = 1
         f_x = dot(self.a * y, K) + self.b
         E = f_x - y
-        
