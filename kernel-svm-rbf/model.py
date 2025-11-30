@@ -1,4 +1,4 @@
-from numpy import exp, zeros, ndarray
+from numpy import exp, zeros, ndarray, dot
 
 
 class KernelSVMRBF:
@@ -11,11 +11,7 @@ class KernelSVMRBF:
         self.C = C
         self.gamma = gamma
         self.a = None
-
-    def initialize_alfa(self, length, /):
-        """Initialize alfa"""
-
-        self.a = zeros(shape=length)
+        self.b = 0
 
     def fit(self, X: ndarray, y: ndarray, /) -> bool:
         """Fit training data
@@ -30,7 +26,7 @@ class KernelSVMRBF:
         """
 
         n_sample = X.shape[0]
-        self.initialize_alfa(n_sample)
+        self.a = zeros(shape=X.shape[0])
         K = zeros(shape=(n_sample, n_sample))
         for i in range(n_sample):
             for j in range(n_sample):
@@ -38,3 +34,6 @@ class KernelSVMRBF:
                     K[i][j] = exp(-(self.gamma * ((X[i] - X[j]) ** 2).sum()))
                 else:
                     K[i][j] = 1
+        f_x = dot(self.a * y, K) + self.b
+        E = f_x - y
+        
